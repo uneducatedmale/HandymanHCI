@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:handyapp/pages/shared/sign_in_dialog.dart';
 import 'package:handyapp/pages/shared/create_account_dialog.dart';
+import 'package:get/get.dart';
+import 'package:handyapp/pages/shared/overview.dart';
 
 /*
   File: home_page.dart
@@ -71,7 +73,8 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) => const SignInDialog(userType: 'client'),
+                      builder: (context) =>
+                          const SignInDialog(userType: 'client'),
                     );
                   },
                 ),
@@ -81,7 +84,8 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) => const SignInDialog(userType: 'contractor'),
+                      builder: (context) =>
+                          const SignInDialog(userType: 'contractor'),
                     );
                   },
                 ),
@@ -92,8 +96,16 @@ class _HomePageState extends State<HomePage> {
                     // Defaulting to contractor for demonstration purposes — you can make this user-selectable if needed
                     showDialog(
                       context: context,
-                      builder: (context) => const CreateAccountDialog(userType: 'contractor'),
+                      builder: (context) =>
+                          const CreateAccountDialog(userType: 'contractor'),
                     );
+                  },
+                ),
+                const SizedBox(height: 25),
+                ElevatedButton(
+                  child: const Text('Overview'),
+                  onPressed: () {
+                    Get.to(() => const OverviewPage());
                   },
                 ),
               ],
