@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:handyapp/pages/contractor/edit_availability_dialog.dart';
 
 class ContractorSchedulePage extends StatelessWidget {
   const ContractorSchedulePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final List<String> weekdays = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Availability'),
@@ -22,17 +33,8 @@ class ContractorSchedulePage extends StatelessWidget {
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
-                itemCount: 7,
+                itemCount: weekdays.length,
                 itemBuilder: (context, index) {
-                  final weekdays = [
-                    'Monday',
-                    'Tuesday',
-                    'Wednesday',
-                    'Thursday',
-                    'Friday',
-                    'Saturday',
-                    'Sunday'
-                  ];
                   return Card(
                     elevation: 2,
                     child: ListTile(
@@ -41,11 +43,9 @@ class ContractorSchedulePage extends StatelessWidget {
                       trailing: IconButton(
                         icon: const Icon(Icons.edit),
                         onPressed: () {
-                          // In a real app this would open a time picker or dialog
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Edit ${weekdays[index]} availability (mock)'),
-                            ),
+                          showDialog(
+                            context: context,
+                            builder: (_) => const EditAvailabilityDialog(),
                           );
                         },
                       ),

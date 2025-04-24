@@ -9,21 +9,23 @@ class AddProgressDialog extends StatefulWidget {
 
 class _AddProgressDialogState extends State<AddProgressDialog> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _statusController = TextEditingController();
-  final TextEditingController _imageUrlController = TextEditingController();
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _detailsController = TextEditingController();
+  String _selectedStatus = 'Pending';
   DateTime? _selectedDate;
 
   @override
   void dispose() {
-    _statusController.dispose();
-    _imageUrlController.dispose();
+    _titleController.dispose();
+    _detailsController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Log Project Progress'),
+      title: const Text('Add Timeline Entry'),
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -31,21 +33,38 @@ class _AddProgressDialogState extends State<AddProgressDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
-                controller: _statusController,
+                controller: _titleController,
+                decoration: const InputDecoration(labelText: 'Milestone Title'),
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Enter a title' : null,
+              ),
+              const SizedBox(height: 15),
+              DropdownButtonFormField<String>(
+                value: _selectedStatus,
+                items: const [
+                  DropdownMenuItem(value: 'Completed', child: Text('Completed')),
+                  DropdownMenuItem(value: 'In Progress', child: Text('In Progress')),
+                  DropdownMenuItem(value: 'Pending', child: Text('Pending')),
+                ],
+                decoration: const InputDecoration(labelText: 'Status'),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() => _selectedStatus = value);
+                  }
+                },
+              ),
+              const SizedBox(height: 15),
+              TextFormField(
+                controller: _detailsController,
+                maxLines: 4,
                 decoration: const InputDecoration(
-                  labelText: 'Status Description',
+                  labelText: 'Details',
+                  alignLabelWithHint: true,
                 ),
                 validator: (value) =>
-                    value == null || value.isEmpty ? 'Enter a status update' : null,
+                    value == null || value.isEmpty ? 'Enter milestone details' : null,
               ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _imageUrlController,
-                decoration: const InputDecoration(
-                  labelText: 'Image URL (optional)',
-                ),
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               Row(
                 children: [
                   Expanded(
@@ -55,19 +74,16 @@ class _AddProgressDialogState extends State<AddProgressDialog> {
                           : 'Date: ${_selectedDate!.toLocal()}'.split(' ')[0],
                     ),
                   ),
-                  const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () async {
-                      final pickedDate = await showDatePicker(
+                      final picked = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
                         firstDate: DateTime(2020),
                         lastDate: DateTime(2100),
                       );
-                      if (pickedDate != null) {
-                        setState(() {
-                          _selectedDate = pickedDate;
-                        });
+                      if (picked != null) {
+                        setState(() => _selectedDate = picked);
                       }
                     },
                     child: const Text('Pick Date'),
@@ -85,17 +101,22 @@ class _AddProgressDialogState extends State<AddProgressDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              // Normally, progress would be sent to backend here
+            if (_formKey.currentState!.validate() && _selectedDate != null) {
+              // Simulate backend integration here
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Progress update added (mocked)')),
+                const SnackBar(content: Text('Timeline entry added (mocked)')),
+              );
+            } else if (_selectedDate == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please select a date')),
               );
             }
           },
-          child: const Text('Add Progress'),
+          child: const Text('Add Entry'),
         ),
       ],
     );
   }
 }
+

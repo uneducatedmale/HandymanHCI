@@ -1,24 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:handyapp/pages/shared/sign_in_dialog.dart';
 import 'package:handyapp/pages/shared/create_account_dialog.dart';
-import 'package:get/get.dart';
 import 'package:handyapp/pages/shared/overview.dart';
-
-/*
-  File: home_page.dart
-  Purpose:
-  - Entry point for the HCI version of the Handyman App.
-  - Lets users choose between Client and Contractor login flows.
-
-  Functionality:
-  - Displays the app name and a tagline.
-  - Offers separate sign-in buttons for Client and Contractor roles.
-  - Launches the respective sign-in and account creation dialogs when clicked.
-
-  Design:
-  - Uses a radial gradient for visual consistency with original Handyman App.
-  - Buttons and layout maintain centered structure for clarity and focus.
-*/
+import 'package:handyapp/pages/shared/help_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,6 +33,20 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          Positioned(
+            top: 40,
+            right: 20,
+            child: IconButton(
+              icon: const Icon(Icons.help_outline, size: 30),
+              tooltip: 'Help',
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => const HelpDialog(),
+                );
+              },
+            ),
+          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  '"For the handiest of men (and women too!)"',
+                  '"For those who need (or are) the handiest "',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -69,44 +68,40 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 50),
                 ElevatedButton(
-                  child: const Text('Client Sign In'),
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) =>
-                          const SignInDialog(userType: 'client'),
+                      builder: (_) => const SignInDialog(userType: 'client'),
                     );
                   },
+                  child: const Text('Client Sign In'),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => const SignInDialog(userType: 'contractor'),
+                    );
+                  },
                   child: const Text('Contractor Sign In'),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) =>
-                          const SignInDialog(userType: 'contractor'),
-                    );
-                  },
                 ),
                 const SizedBox(height: 25),
                 ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => const CreateAccountDialog(),
+                    );
+                  },
                   child: const Text('Create Account'),
-                  onPressed: () {
-                    // Defaulting to contractor for demonstration purposes — you can make this user-selectable if needed
-                    showDialog(
-                      context: context,
-                      builder: (context) =>
-                          const CreateAccountDialog(userType: 'contractor'),
-                    );
-                  },
                 ),
                 const SizedBox(height: 25),
                 ElevatedButton(
-                  child: const Text('Overview'),
                   onPressed: () {
                     Get.to(() => const OverviewPage());
                   },
+                  child: const Text('Overview'),
                 ),
               ],
             ),

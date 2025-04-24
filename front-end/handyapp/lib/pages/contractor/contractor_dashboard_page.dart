@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:handyapp/pages/contractor/add_progress_dialog.dart';
-import 'package:handyapp/pages/contractor/edit_availability_dialog.dart';
 import 'package:handyapp/pages/contractor/contractor_profile_page.dart';
 import 'package:handyapp/pages/contractor/contractor_schedule_page.dart';
-
-/*
-  File: contractor_dashboard_page.dart
-  Purpose:
-  - Acts as the main landing page for contractors after signing in.
-
-  Functionality:
-  - Displays welcome text for the contractor.
-  - Provides access to contractor-specific features like logging updates, managing availability,
-    viewing/editing profile, and checking schedules.
-
-  Design:
-  - Styled consistently with the Handyman App using centered layout and elevated buttons.
-*/
+import 'package:handyapp/pages/contractor/contractor_project_timeline_page.dart';
 
 class ContractorDashboard extends StatelessWidget {
   const ContractorDashboard({super.key});
@@ -27,54 +12,31 @@ class ContractorDashboard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contractor Dashboard'),
-        backgroundColor: Colors.teal,
       ),
-      body: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Welcome, Contractor!',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GridView.count(
+          crossAxisCount: MediaQuery.of(context).size.width < 600 ? 2 : 3,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          children: const [
+            DashboardTile(
+              icon: Icons.timeline,
+              label: 'View Project Timeline',
+              actionType: DashboardAction.route,
+              routeWidget: ContractorProjectTimelinePage(),
             ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => const AddProgressDialog(),
-                );
-              },
-              child: const Text('Log Project Updates'),
+            DashboardTile(
+              icon: Icons.person,
+              label: 'View Profile',
+              actionType: DashboardAction.route,
+              routeWidget: ContractorProfilePage(),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => const EditAvailabilityDialog(),
-                );
-              },
-              child: const Text('Manage Availability'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.to(() => const ContractorProfilePage());
-              },
-              child: const Text('View Profile'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.to(() => const ContractorSchedulePage());
-              },
-              child: const Text('View Schedule'),
+            DashboardTile(
+              icon: Icons.calendar_month,
+              label: 'View Schedule',
+              actionType: DashboardAction.route,
+              routeWidget: ContractorSchedulePage(),
             ),
           ],
         ),
@@ -83,3 +45,61 @@ class ContractorDashboard extends StatelessWidget {
   }
 }
 
+enum DashboardAction { dialog, route }
+
+class DashboardTile extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final DashboardAction actionType;
+  final Widget? dialogBuilder;
+  final Widget? routeWidget;
+
+  const DashboardTile({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.actionType,
+    this.dialogBuilder,
+    this.routeWidget,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        if (actionType == DashboardAction.dialog && dialogBuilder != null) {
+          showDialog(context: context, builder: (_) => dialogBuilder!);
+        } else if (actionType == DashboardAction.route && routeWidget != null) {
+          Get.to(() => routeWidget!);
+        }
+      },
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(25),
+              blurRadius: 6,
+              offset: const Offset(2, 4),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 48, color: Theme.of(context).colorScheme.primary),
+            const SizedBox(height: 12),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

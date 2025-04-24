@@ -22,9 +22,7 @@ class _EditAvailabilityDialogState extends State<EditAvailabilityDialog> {
   Future<void> _pickTime({required bool isStart}) async {
     final picked = await showTimePicker(
       context: context,
-      initialTime: isStart
-          ? _startTime ?? TimeOfDay.now()
-          : _endTime ?? TimeOfDay.now(),
+      initialTime: isStart ? _startTime ?? TimeOfDay.now() : _endTime ?? TimeOfDay.now(),
     );
 
     if (picked != null) {
@@ -49,35 +47,38 @@ class _EditAvailabilityDialogState extends State<EditAvailabilityDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Edit Availability'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
+      content: SingleChildScrollView(
+        child: SizedBox(
+          width: 350,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Start Time:'),
-              const SizedBox(width: 10),
-              Text(_formatTime(_startTime)),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () => _pickTime(isStart: true),
-                child: const Text('Set'),
+              Row(
+                children: [
+                  const Expanded(child: Text('Start Time:')),
+                  Text(_formatTime(_startTime)),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () => _pickTime(isStart: true),
+                    child: const Text('Set'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  const Expanded(child: Text('End Time:')),
+                  Text(_formatTime(_endTime)),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () => _pickTime(isStart: false),
+                    child: const Text('Set'),
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              const Text('End Time:'),
-              const SizedBox(width: 10),
-              Text(_formatTime(_endTime)),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () => _pickTime(isStart: false),
-                child: const Text('Set'),
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
       actions: [
         TextButton(
@@ -87,7 +88,6 @@ class _EditAvailabilityDialogState extends State<EditAvailabilityDialog> {
         ElevatedButton(
           onPressed: () {
             if (_validateTimes()) {
-              // Normally this would send availability to backend
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

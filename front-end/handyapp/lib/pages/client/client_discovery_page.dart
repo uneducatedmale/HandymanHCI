@@ -1,21 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:handyapp/pages/client/booking_request_dialog.dart';
 
-/*
-  File: client_discovery_page.dart
-  Purpose:
-  - Allows clients to discover and search for contractors.
-
-  Functionality:
-  - Displays a list of contractor cards with basic info.
-  - Each card includes name, rating, and description.
-  - Includes a search bar and filter dropdown (static for mockup).
-  - Tapping "Request" opens the booking dialog for that contractor.
-
-  Design:
-  - Styled consistently with the Handyman App using elevated cards and teal accents.
-*/
-
 class ClientDiscoveryPage extends StatelessWidget {
   const ClientDiscoveryPage({super.key});
 
@@ -25,24 +10,26 @@ class ClientDiscoveryPage extends StatelessWidget {
       {
         'name': 'Johns Plumbing',
         'rating': 4.8,
-        'desc': 'Over 10 years of residential plumbing experience.'
+        'desc': 'Over 10 years of residential plumbing experience. Handles emergency calls, sink repairs, and water heater installations.',
+        'badge': '🇺🇸 Veteran-Owned',
       },
       {
         'name': 'M&M Electric',
         'rating': 4.5,
-        'desc': 'Licensed electricians specializing in indoor rewiring.'
+        'desc': 'Licensed electricians specializing in full-home rewiring, panel upgrades, and smart home installations.',
+        'badge': '✊🏿 Black-Owned',
       },
       {
         'name': 'Peak Painters',
         'rating': 4.9,
-        'desc': 'Top-rated for fast, high-quality indoor and outdoor painting.'
+        'desc': 'Top-rated for detailed indoor/outdoor painting. Eco-friendly paints and fast turnaround with excellent reviews.',
+        'badge': '🇺🇦 Ukrainian Supporter',
       },
     ];
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Discover Contractors'),
-        backgroundColor: Colors.teal,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -62,8 +49,7 @@ class ClientDiscoveryPage extends StatelessWidget {
               value: 'Top Rated',
               items: const [
                 DropdownMenuItem(value: 'Top Rated', child: Text('Top Rated')),
-                DropdownMenuItem(
-                    value: 'Most Affordable', child: Text('Most Affordable')),
+                DropdownMenuItem(value: 'Most Affordable', child: Text('Most Affordable')),
                 DropdownMenuItem(value: 'Nearest', child: Text('Nearest')),
               ],
               onChanged: (value) {},
@@ -81,30 +67,64 @@ class ClientDiscoveryPage extends StatelessWidget {
                   return Card(
                     elevation: 4,
                     margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: ListTile(
-                      leading: const CircleAvatar(
-                        backgroundColor: Colors.teal,
-                        child: Icon(Icons.person, color: Colors.white),
-                      ),
-                      title: Text(contractor['name'] as String),
-                      subtitle: Column(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(contractor['desc'] as String),
-                          const SizedBox(height: 5),
-                          Text('⭐ ${contractor['rating']}'),
-                        ],
-                      ),
-                      trailing: ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (_) => BookingRequestDialog(
-                              contractorName: contractor['name'] as String,
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: const CircleAvatar(
+                              backgroundColor: Colors.teal,
+                              child: Icon(Icons.person, color: Colors.white),
                             ),
-                          );
-                        },
-                        child: const Text('Request'),
+                            title: Text(contractor['name'] as String),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 6),
+                                Text(contractor['desc'] as String),
+                                const SizedBox(height: 6),
+                                Row(
+                                  children: [
+                                    Text('⭐ ${contractor['rating']}'),
+                                    const SizedBox(width: 12),
+                                    Chip(
+                                      label: Text(contractor['badge'] as String),
+                                      backgroundColor: Colors.teal.withOpacity(0.1),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.info_outline),
+                              tooltip: 'View Profile (mock)',
+                              onPressed: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Profile view coming soon (mocked).'),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => BookingRequestDialog(
+                                    contractorName: contractor['name'] as String,
+                                  ),
+                                );
+                              },
+                              child: const Text('Request'),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   );
