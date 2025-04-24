@@ -84,8 +84,8 @@ class OverviewPage extends StatelessWidget {
             ),
 
             sectionTitle('📖 Storyboard'),
-            Image.asset(
-              'assets/images/Storyboard.png',
+            Image(
+              image: AssetImage('images/storyboard.png'),
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 8),
