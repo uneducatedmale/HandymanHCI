@@ -2,73 +2,137 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Handyman App - Project Introduction</title>
+  <title>Handyman App Overview</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 40px;
+      margin: 0;
       background-color: #f9f9f9;
       color: #333;
+      scroll-behavior: smooth;
     }
-    h1 {
+    header {
+      background-color: #e0f2f1;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #f1f1f1;
+      padding: 10px;
+      flex-wrap: wrap;
+    }
+    nav a {
+      margin: 10px 20px;
+      text-decoration: none;
       color: #00796B;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    section {
+      padding: 50px 100px;
+      border-bottom: 1px solid #ccc;
     }
     h2 {
       color: #004D40;
+      margin-bottom: 20px;
     }
     p {
-      line-height: 1.6;
       font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
     }
-    nav a {
-      margin-right: 20px;
-      color: #00796B;
-      text-decoration: none;
-      font-weight: bold;
+    img {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 20px;
     }
-    nav {
-      margin-bottom: 30px;
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #e0f2f1;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="overview.html">Project Overview</a>
-    <a href="process.html">Design Process</a>
-    <a href="prototype.html">Prototyping</a>
-    <a href="evaluation.html">Heuristic Evaluation</a>
-    <a href="reflection.html">Reflection</a>
-  </nav>
-
-  <!-- Project Title -->
+<header>
   <h1>Handyman App</h1>
-  <h2>Connecting Homeowners and Contractors Seamlessly</h2>
+  <p>Connecting Homeowners and Contractors Seamlessly</p>
+</header>
 
-  <!-- Project Introduction -->
-  <p>
-    The Handyman App is a human-centered platform designed to improve communication, project management,
-    and contractor discovery within the home improvement industry. Homeowners often struggle to find
-    reliable contractors, facing challenges related to trust, pricing transparency, and communication gaps.
-    Meanwhile, independent contractors face logistical hurdles in managing their projects and maintaining
-    client relationships efficiently.
-  </p>
+<nav>
+  <a href="#home">Home</a>
+  <a href="#project-overview">Project Overview</a>
+  <a href="#design-process">Design Process</a>
+  <a href="#prototyping">Prototyping</a>
+  <a href="#heuristic-evaluation">Heuristic Evaluation</a>
+  <a href="#reflection">Reflection</a>
+</nav>
 
+<section id="home">
+  <h2>Home</h2>
   <p>
-    Our solution addresses these pain points through a unified platform that allows homeowners to search
-    and filter contractors based on skills, location, price, and reviews. Contractors benefit from
-    centralized project management tools, real-time messaging, and availability tracking features to
-    better coordinate their workload. Built with human-centered design principles, the Handyman App
-    emphasizes usability, trust-building, and accessibility for users across different experience levels.
+    The Handyman App is a human-centered platform designed to solve communication gaps and improve project management between homeowners and independent contractors. 
+    Many homeowners face difficulty finding reliable service providers, while contractors often struggle with workflow organization and client interaction. 
+    This project bridges that gap with a streamlined, intuitive application.
   </p>
+</section>
 
+<section id="project-overview">
+  <h2>Project Overview</h2>
   <p>
-    This website documents our full design process, including user research, prototyping, evaluation,
-    and final refinement based on usability feedback. Explore the different sections to see how we
-    developed the Handyman App from concept to high-fidelity prototype.
+    The goal of the Handyman App is to create a trustworthy, intuitive, and accessible system that simplifies contractor discovery, project tracking, and communication. 
+    Key features include advanced search filters based on skill, pricing, and reviews; a contractor dashboard to manage projects and availability; and real-time messaging and updates.
   </p>
+</section>
+
+<section id="design-process">
+  <h2>Design Process</h2>
+  <p>
+    Our design process followed a human-centered approach involving contextual inquiries, user interviews, and competitive analysis. 
+    Storyboards, journey maps, and personas were created to understand user pain points. 
+    We iteratively refined the interface based on feedback, focusing on simplicity, transparency, and trust-building features like credential verification and project timelines.
+  </p>
+</section>
+
+<section id="prototyping">
+  <h2>Prototyping</h2>
+  <p>
+    High-fidelity prototypes were developed using Figma, refining the three major tasks: contractor searching, project tracking, and availability management. 
+    Visual feedback was emphasized with progress bars, calendar integrations, and clear notification systems. 
+    The designs aimed for accessibility, ensuring easy navigation for both tech-savvy and non-tech-savvy users.
+  </p>
+  <img src="images/Storyboard.png" alt="Storyboard showing user flow">
+  <p style="font-style: italic; font-size: 16px;">Figure: Storyboard visualizing contractor discovery and project management.</p>
+</section>
+
+<section id="heuristic-evaluation">
+  <h2>Heuristic Evaluation</h2>
+  <p>
+    A heuristic evaluation was conducted using Nielsen's principles. Issues identified included limited error recovery options and lack of in-app help/documentation. 
+    Severity ratings were assigned, and solutions were applied: clear error messages, input validations, and tooltips for key features. 
+    Post-evaluation updates enhanced usability significantly, reducing potential user confusion.
+  </p>
+</section>
+
+<section id="reflection">
+  <h2>Reflection</h2>
+  <p>
+    Throughout the design process, we learned the importance of continuous user testing and iterative refinement. 
+    The project's focus on usability and transparency addressed critical user needs. 
+    Moving forward, additional improvements could include AI-powered contractor recommendations and a dynamic pricing estimator for clients.
+  </p>
+</section>
+
+<footer>
+  <p>© 2024 Handyman App Project Team</p>
+</footer>
 
 </body>
 </html>
